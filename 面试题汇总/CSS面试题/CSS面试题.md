@@ -27,6 +27,9 @@
 * [CSS选择器有哪些哪些属性可以继承](#CSS选择器有哪些哪些属性可以继承)
   * [CSS选择器有哪些](#CSS选择器有哪些)
   * [参考css有哪些属性可以继承](#参考css有哪些属性可以继承)
+* [CSS3新增伪类有哪些并简要描述](#CSS3新增伪类有哪些并简要描述)
+
+
 
 ------
 
@@ -427,6 +430,32 @@
 2. h1-h6标签字体的大下也是不能被继承的，
 
    因为它们都有一个默认值
+
+
+
+* [返回目录](#目录)
+
+------
+
+## CSS3新增伪类有哪些并简要描述
+
+CSS3 中规定伪类使用一个 `:` 来表示；伪元素则使用 `::` 来表示。
+
+CSS3 中新增的伪元素有以下这些:
+
+- `:first-child / :last-child` 表示子元素结构关系的
+- `:nth-child() / nth-last-child()` 用来控制奇数、偶数行的（控制表单奇数、偶数行的样式）
+- `:first-of-type / :last-of-type` 表示一组兄弟元素中其类型的第一个元素 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first-of-type)
+- `:nth-of-type() / :nth-last-of-type()` 这个选择器匹配那些在相同兄弟节点中的位置与模式 an+b 匹配的相同元素
+- `:root` html 根元素
+- `:not()` 否定选择器，用的比较多
+- `:only-child` 只有一个子元素时才会生效
+- `:empty` 选择连空格都没有的元素
+- `:enable/:disabled`启用 / 禁用
+- `:checked`已勾选
+- `:default`默认，例如radio group中默认选中的radio
+- `:valid, :invalid, :required, :optional, :in-range, :out-of-range`校验有效 / 校验无效 / 必填 / 非必填 / 限定范围内 / 限定范围外的 input
+- `:target`URL片段标识符指向的元素
 
 
 

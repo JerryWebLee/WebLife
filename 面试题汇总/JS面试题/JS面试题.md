@@ -4,15 +4,19 @@
 
 ## 目录
 
-* [写一个方法去掉字符串中的空格](#写一个方法去掉字符串中的空格)
-* [去除字符串中最后一个指定的字符](#去除字符串中最后一个指定的字符)
-* [去除字符串中最后一个指定的字符](#去除字符串中最后一个指定的字符)
+* [001写一个方法去掉字符串中的空格](#001写一个方法去掉字符串中的空格)
+
+* [002去除字符串中最后一个指定的字符](#002去除字符串中最后一个指定的字符)
+
+* [003去除字符串中最后一个指定的字符](#003去除字符串中最后一个指定的字符)
+
+* [004写一个把字符串大小写切换的方法](#004写一个把字符串大小写切换的方法)
 
   
 
 ------
 
-## 写一个方法去掉字符串中的空格
+## 001写一个方法去掉字符串中的空格
 
 写一个方法去掉字符串中的空格，要求传入不同的类型分别能去掉前、后、前后、中间的空格
 
@@ -45,7 +49,7 @@ function trimStr(str) {
 
 ------
 
-## 去除字符串中最后一个指定的字符
+## 002去除字符串中最后一个指定的字符
 
 ### 原生方法
 
@@ -86,7 +90,7 @@ console.log(deleteLastWord('s', str));
 
 ------
 
-## 写一个方法把下划线命名转成大驼峰命名
+## 003写一个方法把下划线命名转成大驼峰命名
 
 ### 原生方法1：
 
@@ -118,6 +122,47 @@ const toCamel = str =>
     .map((s, index) => (index === 0 ? s : s[0].toUpperCase() + s.slice(1)))
     .join("");
 ```
+
+* [返回目录](#目录)
+
+------
+
+## 004写一个把字符串大小写切换的方法
+
+### 正则算法
+
+```js
+// 正则算法
+function changeStrStyle(str) {
+  return str.replace(/([a-z]*)([A-Z]*)/g, (m, s1, s2) => {
+    console.log('m: ' + m, 's1: ' + s1, 's2: ' + s2);
+    return `${s1.toUpperCase()}${s2.toLowerCase()}`
+  })
+}
+console.log(changeStrStyle('abSdEmMDDkkLl'));
+```
+
+### 使用iterator
+
+```js
+// 使用iterator
+function changeStrStyle(str) {
+  let arr = []
+  for (word of str) {
+    if (word === word.toUpperCase()) {
+      word = word.toLowerCase()
+    } else {
+      word = word.toUpperCase()
+    }
+    arr.push(word)
+  }
+  let newStr = arr.join('')
+  return newStr
+}
+console.log(changeStrStyle('abSdEmMDDkkLl'));
+```
+
+
 
 * [返回目录](#目录)
 
