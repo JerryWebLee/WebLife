@@ -501,75 +501,91 @@ setInterval方法与requestAnimationFrame方法的区别较为微妙。一方面
       body {
         height: 100%;
       }
-      canvas {
-        display: block;
-        width: 100%;
+      #canvas {
         height: 100%;
+        width: 100%;
+        display: block;
       }
     </style>
   </head>
   <body>
-    <canvas id="c"></canvas>
-    <script src="../three.js源码/three.js"></script>
+    <canvas id="canvas"></canvas>
+    <script src="../src/commonjs/three.min.js"></script>
+    <script src="../src/commonjs/OrbitControls.js"></script>
     <script>
-      function main() {
-        const canvas = document.querySelector('#c');
-        const renderer = new THREE.WebGLRenderer({ canvas });
-
+      init();
+      function init() {
+        // 设置渲染器
+        const canvas = document.getElementById('canvas');
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+        });
+        renderer.setClearColor(0xffffff);
+        // 设置相机
         const fov = 75;
-        const aspect = 2; // the canvas default
+        const aspect = 2;
         const near = 0.1;
         const far = 5;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         camera.position.z = 2;
-
+        // 设置控制器
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableZoom = false;
+        //监听鼠标事件，触发渲染函数，更新canvas画布渲染效果
+        controls.addEventListener('change', render);
+        // 设置场景
         const scene = new THREE.Scene();
-
-        {
-          const color = 0xffffff;
-          const intensity = 1;
-          const light = new THREE.DirectionalLight(color, intensity);
-          light.position.set(-1, 2, 4);
-          scene.add(light);
-        }
-
+        // 设置光照
+        const color = 0xffffff;
+        const intensity = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(-1, 2, 4);
+        scene.add(light);
+        // 设置几何体
         const boxWidth = 1;
         const boxHeight = 1;
         const boxDepth = 1;
         const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 
+        // 生成cube
         function makeInstance(geometry, color, x) {
           const material = new THREE.MeshPhongMaterial({ color });
-
           const cube = new THREE.Mesh(geometry, material);
           scene.add(cube);
-
           cube.position.x = x;
-
           return cube;
         }
+        const cube = makeInstance(geometry, 0x44aa88, 0);
 
-        const cubes = [makeInstance(geometry, 0x44aa88, 0), makeInstance(geometry, 0x8844aa, -2), makeInstance(geometry, 0xaa8844, 2)];
-
-        function render(time) {
-          time *= 0.001;
-
-          cubes.forEach((cube, ndx) => {
-            const speed = 1 + ndx * 0.1;
-            const rot = time * speed;
-            cube.rotation.x = rot;
-            cube.rotation.y = rot;
-          });
-
+        // 页面缩放，重新渲染
+        window.onresize = function () {
+          render();
+        };
+        render();
+        // 渲染3D模型
+        function render() {
+          if (resizeRendererToDisplaySize(renderer)) {
+            renderer.setPixelRatio(window.devicePixelRatio);
+            const canvas = renderer.domElement;
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+          }
           renderer.render(scene, camera);
-
-          requestAnimationFrame(render);
         }
-
-        requestAnimationFrame(render);
+        // 画布尺寸是否变化
+        function resizeRendererToDisplaySize(renderer) {
+          const canvas = renderer.domElement;
+          // 避免HiDPI设备上绘图模糊
+          const pixelRatio = window.devicePixelRatio;
+          const width = (canvas.clientWidth * pixelRatio) | 0;
+          const height = (canvas.clientHeight * pixelRatio) | 0;
+          const needResize = canvas.width !== width || canvas.height !== height;
+          if (needResize) {
+            renderer.setSize(width, height, false);
+          }
+          return needResize;
+        }
       }
-
-      main();
     </script>
   </body>
 </html>
